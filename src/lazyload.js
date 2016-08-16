@@ -36,7 +36,7 @@
 				callback_load: null,
 				callback_set: null,
 				callback_processed: null,
-				placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+				placeholder: null
 			};
 			_supportsAddEventListener = !!window.addEventListener;
 			_supportsAttachEvent = !!window.attachEvent;
@@ -249,7 +249,19 @@
 
 		/* If no src attribute given use data:uri. */
 		if (!element.getAttribute("src")) {
-			element.setAttribute("src", settings.placeholder);
+			if (settings.placeholder !== null) {
+				element.getAttribute("src", settings.placeholder);
+			} else {
+				var width = 1;
+				var height = 1;
+				if (element.getAttribute("width")) {
+					width = element.getAttribute("width");
+				}
+				if (element.getAttribute("height")) {
+					height = element.getAttribute("height");
+				}
+				element.setAttribute("src", "data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox%3D'0 0 "+width+" "+height+"'%2F%3E");
+			}
 		}
 		/* Creating a new `img` in a DOM fragment. */
 		fakeImg = document.createElement('img');
